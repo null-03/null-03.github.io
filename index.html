@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="favcon.png" type="image/jpg" sizes="15x15">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <title>Virtue Tracker</title>
+    <style>
+        /* Modern Color Palette and Variables */
+        :root {
+           --primary: #1a3b5c;
+            --primary-light: #2d5a87;
+            --primary-dark: #15304a;
+            --accent: #ff7171;
+            --accent-light: #ffb6b6;
+            --bg: #dcdcdc;
+            --card-bg: #ffffff;
+            --border: #eaeaea;
+            --text: #333333;
+            --text-muted: #8a94a6;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.09);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font-main: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        /* Modern Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 28px 30px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: var(--shadow-md);
+            margin-right: 2.5rem;
+            margin-left: -60px;
+        }
+        
+        .logo-inner {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        
+        .university-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .location {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            margin-top: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .certification {
+            font-size: 12px;
+            margin-top: 14px;
+            margin-left: 2rem;
+            opacity: 0.8;
+        }
+        
+        .iso {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-right: 20px;
+        }
+        
+        .level {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+        
+        /* Modern Navigation */
+        .nav {
+            background-color: white;
+            display: flex;
+            padding: 10px;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .nav-button {
+            background: none;
+            border: none;
+            color: var(--text);
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(82, 64, 183, 0.05);
+            transform: scale(0.95);
+        }
+        
+        .nav-button.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* User Info Card */
+        .user-info-container {
+            padding: 20px 30px;
+            background: #b6b6b63d;
+            border-radius: var(--radius-md);
+            margin: 20px 30px;
+            box-shadow: var(--shadow-sm);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+       
+
+        .user-info-card {
+            background: white;
+            padding: 18px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .user-info-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .user-info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-info-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-left: 40px;
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Modern Virtue Entry Cards */
+        .entries-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .entry {
+            background-color: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .entry:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .entry-header {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .day-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .date {
+            font-size: 14px;
+            opacity: 0.9;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+        
+        .entry-content {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .entry-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .section-content {
+            font-size: 16px;
+            line-height: 1.6;
+            padding-left: 18px;
+            border-left: 2px solid var(--border);
+        }
+        
+        /* Modern Reflection Section */
+        .reflection {
+            margin-top: 50px;
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .reflection-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .reflection-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .reflection-question {
+            font-size: 17px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            
+        }
+        
+        .reflection-answer {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9ff;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--primary-light);
+        }
+        
+        /* Modern Instructions Tab */
+        .objective {
+            padding: 25px;
+            background-color: #f8f9ff;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            margin-top: 40px;
+        }
+        
+        .step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 25px;
+            align-items: start;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(93, 69, 224, 0.25);
+        }
+        
+        .step-content {
+            padding-top: 5px;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .step-details {
+            line-height: 1.7;
+        }
+        
+        .step-details ul {
+            margin-top: 15px;
+            margin-left: 20px;
+            
+        }
+        
+        .step-details li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .step-details li::marker {
+            color: var(--primary);
+        }
+
+        .page-footer {
+            margin: 40px 0 20px;
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            border-top: 3px solid #1a3b5c;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1a3b5c, #3a6ea5, #1a3b5c);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 6px;
+            box-shadow: 
+                inset 0 1px 3px rgba(0, 0, 0, 0.05),
+                0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .footer-item {
+            padding: 6px 12px;
+            font-size: 15px;
+            color: #4a5568;
+            position: relative;
+        }
+
+        .footer-item:not(:last-child)::after {
+            content: '•';
+            position: absolute;
+            right: -8px;
+            color: #cbd5e0;
+        }
+
+        .footer-item:hover {
+            text-shadow: 0 0 1px rgba(74, 85, 104, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .footer-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .footer-item:not(:last-child)::after {
+                content: '';
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                margin: 15px;
+                border-radius: var(--radius-md);
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+            
+            .logo {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .university-name {
+                font-size: 20px;
+            }
+            
+            .entry-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .step {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+            }
+            
+            .nav-button {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="lspu.png" alt="LSPU Logo" class="logo-inner">
+                </div>
+                <div>
+                    <h1 class="university-name">Laguna State Polytechnic University</h1>
+                    <h2 class="location">Province of Laguna</h2>
+                </div>
+            </div>
+            <div class="certification">
+                <span class="iso">ISO 9001:2015 Certified</span>
+                <span class="level">Level I Institutionally Accredited</span>
+            </div> <br><br> <h3 class="page-title">Virtue Tracker Challenge</h3>
+        </div>
+
+        
+        
+        <!-- Navigation -->
+        <div class="nav">
+            
+            <button id="tracker-btn" class="nav-button active" onclick="switchTab('tracker')">Virtue Tracker</button>
+            <button id="instructions-btn" class="nav-button" onclick="switchTab('instructions')">Instructions</button>
+        </div>
+        
+        <!-- User Information -->
+        <div class="user-info-container">
+            <div class="user-info-card">
+                <div class="user-info-label">
+                    <span class="user-info-icon">🧑🏻</span>
+                    Student
+                </div>
+                <div class="user-info-value">Mark Give De Leon</div>
+            </div>
+
+            <div class="user-info-card">
+                <div class="user-info-label">
+                    <span class="user-info-icon">🎯</span>
+                    Virtue
+                </div>
+                <div class="user-info-value">Patience</div>
+            </div>
+
+            <div class="user-info-card">
+                <div class="user-info-label">
+                    <span class="user-info-icon">📚</span>
+                    Program / Section
+                </div>
+                <div class="user-info-value">BSIT 2C</div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Tracker Tab Content -->
+            <div id="tracker" class="tab-content active">
+                <div class="entries-container">
+                    <!-- Monday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Friday</div>
+                            <div class="date">May 16</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">When the heavy rain disrupted my internet connection, I consciously chose to wait patiently 
+                                                            instead of forcing a reconnect or stressing over my pending to-dos in other courses. 
+                                                            Later, when the electricity went out, I resisted the urge to use my phone’s remaining battery for games 
+                                                            and instead conserved it for emergencies (we never know; wasn’t exactly hoping tho).</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">Right after our online discussion on course Ethics ended, heavy rain started pouring, 
+                                                            which disrupted the internet connection. Later that night, the electricity also went down due to the bad weather.
+                                                                </div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">Honestly, it was really hard to stay patient in this situation. Pretty much everything I do for both school and my hobbies depends on 
+                                                            either electricity or internet or both of them. When the power went out, it was and even more additional inconvenience. At first, I was frustrated. 
+                                                            I kept thinking about all the to-dos piling up and how behind I'd be (probably my fault though, 
+                                                            for my poor time management). But after a while, I realized getting worked up wouldn't magically bring the power back or fix the internet. 
+                                                            So it was patience and acceptance together that I practiced to cope with this situation.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tuesday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Saturday</div>
+                            <div class="date">May 17</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">I made sure to leave early and wait for probably more than an hour knowing jeepney trips were limited on my area on weekends. 
+                                                            When I finally got transportation and arrived at practice, I resisted complaining even as the sweltering heat made every movement feel exhausting. 
+                                                            The intense heat made everything feel twice as hard and I could feel everything slowly getting on my nerves. However, I chose to stay focused, push through the discomfort, 
+                                                            and complete our dance practice without letting frustration take over.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">We have a practice for our modern dance performace in PATHFIT. It was Saturday, a weekend meaning 'byahe' or jeepney trips on my area were very limited. 
+                                                             During practice, the weather was especially hot like I'm not even exaggerating (but probably because we were dancing too). Even before we started practicing, 
+                                                             my shirt and towel were already soaked with sweat and I already finished the bottled water I bought supposedly for 'water break'.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">Honestly, it was rough. Standing there waiting for over an hour, each passing minute made me more anxious about being late, 
+                                                            really really tested my patience. By the time I finally got to practice, I was already exhausted before we even started dancing. 
+                                                            The worst part was when the sun felt like it was burning right through us, and every move made me sweat even more.
+                                                            The heat made it easy to lose focus, and my tired body begged for a break.
+                                                            What really challenged me was keeping my cool when all I wanted to do was complain or just stop. 
+                                                            Beyond just enduring the endless waiting, I also practiced patience by pushing through the unbearable heat without (prolly minimal) complaining.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Wednesday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Sunday</div>
+                            <div class="date">May 18</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">I showed <strong>patience</strong> by arriving on time and wait even though most (all of them to be honest) 
+                                                            of my classmates were very late. I didn’t complain and just stayed and wait until everyone arrived for us to start practicing.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">We had a scheduled practice for our PATHFIT modern dance again for the last time since the performance will be tommorrow. The agreed call time was 8:00 AM, and I arrived at the venue by 7:50 AM 
+                                                            along with a classmate from the same municipality. However, no one else was there at the time. One classmate came around 9:00 AM, 
+                                                            and the rest only started showing up close to 12:00 noon.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">It was hard to stay patient because I value time and made the effort to wake up early and catch a jeepney from my place, 
+                                                            which is quite far from the practice venue. I was tired from lack of sleep, so it felt unfair when most of my groupmates arrived hours late. 
+                                                            Still, I chose to stay calm, not complain, and wait because I knew getting angry wouldn’t help. It wasn’t easy, 
+                                                            but it helped me grow in patience and understanding.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thursday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Monday</div>
+                            <div class="date">May 19</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">The jeepney ride took long (as usual). My classmates arrived late (as usual also), I didn’t argue probably because I got used to this or because i know i didn't have any choice either. While waiting for our turn to perform, I tried relaxing because my knees were literally shaking. On my way home, despite the extreme heat and slow trip, I tried my best to cool down until got home.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">It was the day of our modern dance performance, and we didn’t have classes. Our group agreed to meet at 8 AM so we could practice before the event started at 10. However, I faced delays on the way due to slow jeepney rides (yeah for the nth time), and when I arrived, some of my classmates weren’t there yet. That caused more waiting. During the event, our performance was scheduled later because Ma’am Julie had many handled sections from different porgrams. After the event, my trip home was long and uncomfortable due to the intense heat, which made the day even more tiring and tested my patience further.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">It was challenging to stay patient I probably have anger issues or it's really because of the heat. The delays, the heat, and the long waiting time made me feel annoyed inside, but I chose not to show it. It felt good to know that I was able to handle the situation with patience, even though I was always almost broke down.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Friday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Tuesday</div>
+                            <div class="date">May 20</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">Instead of getting frustrated (i get frustrated to be honest) or giving up when coding errors kept happening, I took breaks when I felt my anger rising. I reminded myself that debugging is part of programming and that every error was teaching me something. When the heat made me irritable, I tried to stay calm and find ways to cool down rather than taking out my bad mood on others.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">It was a rest day after yesterday's PathFit dance festival, so I was home working on our final website system. The weather was extremely hot, which was already affecting my mood and making me feel uncomfortable. Then when I started coding at night, I kept running into errors like even small changes like fixing one piece of syntax would break other parts of my code.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">It felt really frustrating at first, especially since I was already in a bad mood from the heat. The most challenging part was staying calm when the same types of errors kept popping up over and over again. I wanted to just close my laptop and give up. I realized that being patient actually helped me think more clearly and find solutions faster than when I was stressed and rushing.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Saturday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Wednesday</div>
+                            <div class="date">May 21</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">When we hit coding problems and bugs that wouldn't fix, I took deep breaths instead of getting frustrated. I reminded myself that debugging takes time and that getting angry wouldn't help solve the problems faster. I also took short breaks when I felt my patience running thin, and encouraged my groupmates when they got stuck too.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">It was a hot day with no classes, so my two groupmates came over to work on our final project system. We spent the afternoon coding and ran into multiple bugs and errors that were really hard to figure out. The heat made everything more irritating, and debugging felt like it was taking forever.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">It felt really frustrating at first because the errors seemed to come one after another, and the heat wasn't helping my mood. The most challenging part was staying calm when we'd fix one bug only to find another one. But it was rewarding when we finally solved each problem, it felt like a small victory each time. By the end, I realized that staying patient actually helped us think more clearly and work better as a team. Getting angry would have just made everything harder.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sunday Entry -->
+                    <div class="entry">
+                        <div class="entry-header">
+                            <div class="day-name">Thursday</div>
+                            <div class="date">May 22</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-section">
+                                <div class="section-title">Action Taken</div>
+                                <div class="section-content">Coding especially debugging really is frustating sometimes. When waiting for the jeep, I tried to stay calm and talk with my groupmates instead of complaining. In the hot weather, I focused on the task at hand rather than dwelling on how uncomfortable I felt.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Situation/Context</div>
+                                <div class="section-content">At morning, me with my other two groupmates continued polishing our final system, followed by a 2-hour wait for transportation to Victoria, Laguna for our short film shoot. On our home in Cavinti, it was already hot, but it is even hotter here in Victoria that even small movements makes us sweat so much.</div>
+                            </div>
+                            <div class="entry-section">
+                                <div class="section-title">Reflection</div>
+                                <div class="section-content">It felt mentally draining to keep my cool when everything seemed to test my patience at once. The most challenging part was dealing with multiple stressors, coding bugs, long wait times, and uncomfortable heat, all in one day. But I noticed and realized that staying patient actually helped me think more clearly about the coding problems and made the waiting time more bearable with my groupmates.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- End of Week Reflection -->
+                <div class="reflection">
+                    <h3 class="reflection-title">End-of-Week Reflection</h3>
+                    
+                    <div class="reflection-question">1. What was easy or difficult about practicing your chosen virtue?</div>
+                    <div class="reflection-answer">
+                        What was really hard:<br>
+                        Honestly, practicing patience was super tough this whole week. The hardest part was when everything seemed to go wrong at the same time like when I'm already dealing with coding errors that won't fix, and then the weather is crazy hot, and on top of that I have to wait forever for transportation or my classmates to show up. The heat made everything worse because it made me grumpy even before other problems started. I think I might have some anger issues, or maybe it's just because of how hot it was, but I found myself getting really frustrated easily.<br>
+                        The coding part was especially annoying because every time I thought I fixed something, another error would pop up. It felt like a never-ending cycle. And don't get me started on waiting for classmates, showing up on time just to wait for hours while everyone else is late really tested me. Sometimes I just wanted to complain or give up completely.<br>
+
+                        What helped make it easier:<br>
+                        Taking breaks when I felt my anger building up really helped. I learned that when I started getting mad, stepping away for a bit was better than forcing myself to keep going.
+                    </div>
+                    
+                    <div class="reflection-question">2. Did you notice any changes in your behavior, mindset, or how others reacted to you?</div>
+                    <div class="reflection-answer">
+                       <strong>How I started acting differently:</strong><br>
+                        I definitely became more aware of how I react to annoying situations. Before this week, I probably would have just complained right away or gotten visibly frustrated. But I started catching myself and choosing to take deep breaths instead. I also found myself trying to encourage my groupmates when they got stuck with coding problems, instead of adding to the stress by being grumpy too.
+                        I got better at arriving early and just accepting that waiting is part of life, especially with my classmates who are always late. I stopped expecting them to be on time and just naturally wait for them.<br>
+
+                        <strong>How my thinking changed:</strong><br>
+                        The biggest change was realizing that staying patient actually made me better at solving problems. When I was calm, I could think more clearly about coding issues and figure out solutions faster than when I was stressed out and rushing. I started seeing problems like bugs and delays as just normal parts of life instead of personal attacks on my day.<br>
+                        I also accepted that some things are just out of my control, like the weather, power outages, internet problems, and other people being late. Getting worked up about these things doesn't change anything, so why waste my energy being mad?<br>
+
+                        <strong>How people reacted to me:</strong><br>
+                        Even though I didn't write about it much in my daily entries, I think my groupmates appreciated that I stayed calm during our coding sessions. When I wasn't getting frustrated and complaining, it seemed like everyone could focus better and we worked together more smoothly. The atmosphere felt less tense when I kept my cool. My classmates probably noticed that I didn't complain as much about waiting, even when they were really late. I think they felt less guilty because I wasn't making them feel bad about it.<br>
+                                            </div>
+
+                        <strong>What I learned overall:</strong><br>
+                        By the end of the week, being patient felt a little more natural, though I still had to really try hard sometimes. The most important thing I realized is that patience isn't just about suffering through bad situations quietly, it's about staying calm so you can think better and handle things more effectively. It also makes life more peaceful for everyone around you.
+                        I'm still not perfect at it, and I probably still have moments where I almost break down, but at least now I know that patience actually works and makes things better, not worse.
+                </div>
+            </div>
+            
+            <!-- Instructions Tab Content -->
+            <div id="instructions" class="tab-content">
+                <h3 class="reflection-title">Virtue Tracker Challenge: Build Your Character One Day at a Time!</h3>
+                
+                <div class="objective">
+                    <strong>Objective:</strong> Encourage the development of moral virtues through conscious, daily practice. By choosing one specific virtue to focus on, you will gain insight into your behavior, values, and the challenges and rewards of living virtuously.
+                </div>
+                
+                <div class="steps">
+                    <!-- Step 1 -->
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Choose Your Virtue</div>
+                            <div class="step-details">
+                                Start by selecting one moral virtue that you would like to strengthen over the next 7 days. Examples of virtues include:
+                                <ul>
+                                    <li>Honesty - Telling the truth, even when it's hard</li>
+                                    <li>Kindness - Being compassionate and helping others</li>
+                                    <li>Courage - Doing the right thing despite fear</li>
+                                    <li>Patience - Staying calm in frustrating situations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Create Your Virtue Tracker</div>
+                            <div class="step-details">
+                                Design a simple chart or journal page where you will record your daily efforts. Your Virtue Tracker should include:
+                                <ul>
+                                    <li>Date</li>
+                                    <li>Action Taken (What did you do to practice the virtue?)</li>
+                                    <li>Situation or Context</li>
+                                    <li>Reflection (How did it feel? What was challenging or rewarding?)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Practice Your Virtue Daily</div>
+                            <div class="step-details">
+                                Each day, make a conscious effort to perform at least one action that reflects your chosen virtue. This could be:
+                                <ul>
+                                    <li>Helping a classmate (kindness)</li>
+                                    <li>Owning up to a mistake (honesty)</li>
+                                    <li>Staying calm when provoked (patience)</li>
+                                </ul>
+                                It's okay if the action is small—what matters is your intention and awareness!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Track and Reflect</div>
+                            <div class="step-details">
+                                Every evening (or right after the act), fill in your tracker. Think about:
+                                <ul>
+                                    <li>How did practicing this virtue make you feel?</li>
+                                    <li>Was it easier or harder than you expected?</li>
+                                    <li>What did you learn from the experience?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">End-of-Week Reflection</div>
+                            <div class="step-details">
+                                After 7 days, take time to reflect on your experience by answering the following two questions in a short-written reflection or discussion:
+                                <ol>
+                                    <li style="margin-left: 20px; list-style-position: inside;">What was easy or difficult about practicing your chosen virtue?</li>
+                                    <li style="margin-left: 20px; list-style-position: inside;">Did you notice any changes in your behavior, mindset, or how others reacted to you?</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <footer class="page-footer">
+                <div class="footer-content">
+                    <div class="footer-row">
+                        <p class="footer-name">Mark Give De Leon</p>
+                        <span class="footer-separator">•</span>
+                        <p class="footer-program">BSIT - 2C</p>
+                    </div>
+                    <div class="footer-row">
+                        <p class="footer-course">GEC 108 - ETHICS</p>
+                        <span class="footer-separator">•</span>
+                        <p class="footer-teacher">Khrisna Cara Solde</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Deactivate all tab buttons
+            const tabButtons = document.getElementsByClassName("nav-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show selected tab content and activate its button
+            document.getElementById(tabId).classList.add("active");
+            document.getElementById(tabId + "-btn").classList.add("active");
+        }
+    </script>
+</body>
+</html>
